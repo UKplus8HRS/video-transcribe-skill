@@ -9,100 +9,126 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">Video Transcribe Skill</div>
+      <a class="brand" href="#top" aria-label="Video Transcribe Skill home">
+        <span class="brand-mark">VT</span>
+        <span>Video Transcribe Skill</span>
+      </a>
       <nav aria-label="Page navigation">
         <a href="#route">Route</a>
         <a href="#install">Install</a>
         <a href="#zh">中文</a>
+        <a href="https://github.com/UKplus8HRS/video-transcribe-skill">GitHub</a>
       </nav>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content">
           <p class="eyebrow">Local ASR for Codex</p>
-          <h1>Turn video links into transcripts Codex can actually read.</h1>
+          <h1 id="hero-title">Turn video links into transcripts Codex can actually read.</h1>
           <p class="lede">
-            A small, deterministic skill for Bilibili, YouTube, generic URLs, and local media.
-            It extracts audio, normalizes it with FFmpeg, runs local faster-whisper, and gives Codex clean text to summarize.
+            A bilingual, open-source Codex skill for Bilibili, YouTube, generic video URLs, and local media.
+            It extracts audio deterministically, transcribes locally, and gives the model text it can reason over.
           </p>
-          <div class="actions">
-            <a class="button primary" href="https://github.com/UKplus8HRS/video-transcribe-skill">GitHub</a>
-            <a class="button" href="./technical-route.md">Technical route</a>
+          <div class="actions" aria-label="Primary actions">
+            <a class="button primary" href="https://github.com/UKplus8HRS/video-transcribe-skill">View on GitHub</a>
+            <a class="button" href="./technical-route.md">Read the technical route</a>
+          </div>
+          <div class="metrics" aria-label="Project highlights">
+            <div><strong>No cloud key</strong><span>Local faster-whisper</span></div>
+            <div><strong>Bilibili native</strong><span>Public API audio route</span></div>
+            <div><strong>Codex-ready</strong><span>Timestamped transcript</span></div>
           </div>
         </div>
-        <div class="terminal" aria-label="Example output">
-          <div class="terminal-bar"><span></span><span></span><span></span></div>
-          <pre><code>$ video-transcribe BV1hi7w6ME4Q
-platform=bilibili
-title=Harness engineering 实操干货教程！
-segments=124 language=zh
-
-[041.56-042.16] 第一步
-[042.16-043.64] 给 AI 建一张地图</code></pre>
-        </div>
       </section>
 
-      <section id="route" class="section">
+      <section class="intro-band" aria-label="Chinese summary">
+        <p>
+          视频没有字幕时，这个 skill 会先拿到音频、转成稳定格式、用本地 Whisper 生成时间戳转写，
+          然后再让 Codex 做摘要、提取和问答。确定性步骤交给代码，判断类工作交给模型。
+        </p>
+      </section>
+
+      <section id="route" class="section route-section">
         <div class="section-head">
-          <p class="eyebrow">Technical route</p>
+          <p class="eyebrow">Technical route / 技术路线</p>
           <h2>Deterministic first, model second.</h2>
+          <p>
+            The generated diagram shows the full path from video link to Codex summary. The text pipeline below keeps the route readable and auditable even when image text is not enough.
+          </p>
         </div>
-        <div class="pipeline">
-          <div>Video URL</div>
-          <div>Platform resolver</div>
-          <div>Audio stream</div>
-          <div>FFmpeg WAV</div>
-          <div>faster-whisper</div>
-          <div>Transcript</div>
+        <figure class="route-figure">
+          <img src="./assets/technical-route.png" alt="Technical route diagram: video URL to platform resolver, audio extraction, FFmpeg, faster-whisper, transcript, and Codex summary." />
+        </figure>
+        <div class="pipeline" aria-label="Text version of the technical route">
+          <div><span>01</span>Video URL</div>
+          <div><span>02</span>Platform resolver</div>
+          <div><span>03</span>Bilibili API or yt-dlp</div>
+          <div><span>04</span>FFmpeg WAV</div>
+          <div><span>05</span>faster-whisper</div>
+          <div><span>06</span>Transcript and summary</div>
         </div>
-        <div class="grid">
+      </section>
+
+      <section class="section feature-section">
+        <div class="section-head">
+          <p class="eyebrow">Why it works</p>
+          <h2>Small surface area, useful output.</h2>
+        </div>
+        <div class="feature-grid">
           <article>
-            <h3>Bilibili native path</h3>
-            <p>BV ids are resolved through Bilibili public web APIs. The script downloads DASH audio directly and avoids fragile Bilibili yt-dlp behavior.</p>
+            <span class="feature-index">A</span>
+            <h3>Bilibili-native extraction</h3>
+            <p>BV ids are resolved through public Bilibili APIs, then the highest-bandwidth DASH audio stream is downloaded with browser-like headers.</p>
           </article>
           <article>
-            <h3>Generic fallback</h3>
-            <p>YouTube and other supported platforms are delegated to yt-dlp, keeping extraction broad without reimplementing every platform.</p>
+            <span class="feature-index">B</span>
+            <h3>Local transcription path</h3>
+            <p>FFmpeg normalizes every source to 16 kHz mono audio before faster-whisper runs locally on CPU with int8 compute.</p>
           </article>
           <article>
-            <h3>Local transcription</h3>
-            <p>faster-whisper runs on CPU with int8 compute by default, so the workflow does not require a cloud API key.</p>
+            <span class="feature-index">C</span>
+            <h3>Evidence before summary</h3>
+            <p>The model reads a timestamped transcript. It does not decide routing, retry policy, or whether a download succeeded.</p>
           </article>
         </div>
       </section>
 
-      <section id="install" class="section split">
+      <section id="install" class="section install-section">
         <div>
           <p class="eyebrow">Install</p>
           <h2>Drop the skill into Codex.</h2>
-          <p>Clone the repo, install FFmpeg, create a small local Whisper environment, then invoke <code>$video-transcribe</code> whenever a video link needs to become text.</p>
+          <p>
+            Clone the repository, install FFmpeg, create the local Whisper environment, and invoke
+            <code>$video-transcribe</code> whenever a video link needs to become text.
+          </p>
         </div>
         <pre class="code"><code>git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
 winget install --id Gyan.FFmpeg --exact
 pip install -r requirements.txt</code></pre>
       </section>
 
-      <section id="zh" class="section zh">
-        <p class="eyebrow">中文介绍</p>
-        <h2>把视频链接变成 Codex 能读的文字。</h2>
-        <p>
-          这个 skill 先用确定性代码完成平台解析、音频下载、FFmpeg 转码和本地 Whisper 转写，
-          然后再让模型基于转写文本做摘要、提取和问答。B 站走公开 API 获取音频流，YouTube
-          和通用链接走 yt-dlp，本地文件则直接转码。
-        </p>
-        <div class="grid">
+      <section id="zh" class="section zh-section">
+        <div class="section-head">
+          <p class="eyebrow">中文介绍</p>
+          <h2>把视频链接变成 Codex 能读、能引用、能总结的文字。</h2>
+        </div>
+        <div class="feature-grid">
           <article>
-            <h3>不依赖云端 key</h3>
-            <p>默认使用本地 faster-whisper，适合临时视频摘要和私有素材处理。</p>
+            <span class="feature-index">本地</span>
+            <h3>不依赖云端转写 key</h3>
+            <p>默认使用本地 faster-whisper，适合临时视频摘要、私有素材处理和无字幕内容理解。</p>
           </article>
           <article>
-            <h3>适合无字幕视频</h3>
-            <p>当 B 站页面显示“暂无字幕”时，仍然可以从音频生成可读转写。</p>
+            <span class="feature-index">路线</span>
+            <h3>B 站走公开 API</h3>
+            <p>B 站链接和 BV 号通过公开接口解析音频流，YouTube 和通用链接交给 yt-dlp。</p>
           </article>
           <article>
-            <h3>输出可追溯</h3>
-            <p>每行转写都有时间戳，并保存 metadata，方便回看和核对。</p>
+            <span class="feature-index">输出</span>
+            <h3>转写可追溯</h3>
+            <p>每行都有时间戳，并写入 metadata，方便核对来源、模型、语言和文件路径。</p>
           </article>
         </div>
       </section>

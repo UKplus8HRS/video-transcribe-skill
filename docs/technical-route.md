@@ -2,6 +2,8 @@
 
 English | [中文](#中文)
 
+![Video Transcribe Skill technical route](./assets/technical-route.png)
+
 ## Goal
 
 The skill turns a video link into text that Codex can reason over. It keeps platform routing, downloads, retries, audio conversion, and file checks in deterministic code. The language model only consumes the transcript to summarize, classify, extract, or answer questions.
