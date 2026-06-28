@@ -6,7 +6,7 @@ English | [中文](#中文)
 
 ## Goal
 
-The skill turns a video link into text that Codex can reason over. It keeps platform routing, downloads, retries, audio conversion, and file checks in deterministic code. The language model only consumes the transcript to summarize, classify, extract, or answer questions.
+The skill turns a video link into text that Codex can reason over while staying offline-first and lightweight. It is not a hosted transcription service and does not add a backend. Platform routing, downloads, retries, audio conversion, and file checks stay in deterministic code. The language model only consumes the transcript to summarize, classify, extract, or answer questions.
 
 ## Pipeline
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Video Transcribe Skill</title>
-    <meta name="description" content="A local Codex skill that turns video links into timestamped transcripts and summaries." />
+    <meta name="description" content="Offline-first lightweight Codex skill that turns video links into timestamped transcripts and summaries." />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -25,19 +25,19 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow">Local ASR for Codex</p>
-          <h1 id="hero-title">Turn video links into transcripts Codex can actually read.</h1>
+          <p class="eyebrow">Offline-first local ASR for Codex</p>
+          <h1 id="hero-title">Lightweight video transcription, without a hosted service.</h1>
           <p class="lede">
-            A bilingual, open-source Codex skill for Bilibili, YouTube, generic video URLs, and local media.
-            It extracts audio deterministically, transcribes locally, and gives the model text it can reason over.
+            A README-first, open-source Codex skill for Bilibili, YouTube, generic video URLs, and local media.
+            No backend, no account, no cloud transcription key: just FFmpeg, faster-whisper, and a transcript Codex can read.
           </p>
           <div class="actions" aria-label="Primary actions">
             <a class="button primary" href="https://github.com/UKplus8HRS/video-transcribe-skill">View on GitHub</a>
             <a class="button" href="./technical-route.md">Read the technical route</a>
           </div>
           <div class="metrics" aria-label="Project highlights">
-            <div><strong>No cloud key</strong><span>Local faster-whisper</span></div>
-            <div><strong>Bilibili native</strong><span>Public API audio route</span></div>
+            <div><strong>Offline-first</strong><span>Local faster-whisper</span></div>
+            <div><strong>Lightweight</strong><span>No hosted service</span></div>
             <div><strong>Codex-ready</strong><span>Timestamped transcript</span></div>
           </div>
         </div>
@@ -45,8 +45,8 @@
 
       <section class="intro-band" aria-label="Chinese summary">
         <p>
-          视频没有字幕时，这个 skill 会先拿到音频、转成稳定格式、用本地 Whisper 生成时间戳转写，
-          然后再让 Codex 做摘要、提取和问答。确定性步骤交给代码，判断类工作交给模型。
+          视频没有字幕时，这个 skill 会先拿到音频、转成稳定格式、用本地 Whisper 生成时间戳转写。
+          它不是托管服务，不自建后端，不要求云端转写 key；确定性步骤交给代码，判断类工作交给模型。
         </p>
       </section>
 
@@ -85,7 +85,7 @@
           <article>
             <span class="feature-index">B</span>
             <h3>Local transcription path</h3>
-            <p>FFmpeg normalizes every source to 16 kHz mono audio before faster-whisper runs locally on CPU with int8 compute.</p>
+            <p>FFmpeg normalizes every source to 16 kHz mono audio before faster-whisper runs locally on CPU with int8 compute. No server layer is required.</p>
           </article>
           <article>
             <span class="feature-index">C</span>
@@ -112,7 +112,7 @@ pip install -r requirements.txt</code></pre>
       <section id="zh" class="section zh-section">
         <div class="section-head">
           <p class="eyebrow">中文介绍</p>
-          <h2>把视频链接变成 Codex 能读、能引用、能总结的文字。</h2>
+          <h2>离线、轻量、直接放进 Codex skills 目录。</h2>
         </div>
         <div class="feature-grid">
           <article>
@@ -122,8 +122,8 @@ pip install -r requirements.txt</code></pre>
           </article>
           <article>
             <span class="feature-index">路线</span>
-            <h3>B 站走公开 API</h3>
-            <p>B 站链接和 BV 号通过公开接口解析音频流，YouTube 和通用链接交给 yt-dlp。</p>
+            <h3>不自建后端</h3>
+            <p>不做账号、队列、面板或托管转写服务。仓库就是 skill、脚本、README 和轻量文档页。</p>
           </article>
           <article>
             <span class="feature-index">输出</span>

@@ -1,8 +1,28 @@
 # Video Transcribe Skill
 
-> A local Codex skill for turning video links into timestamped transcripts and summaries.
+> Offline-first, lightweight Codex skill for turning video links into timestamped transcripts and summaries.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Skill](https://img.shields.io/badge/Codex-SKILL.md-0b6b57.svg)](video-transcribe/SKILL.md)
+[![Offline first](https://img.shields.io/badge/offline--first-local%20Whisper-c84f31.svg)](#why)
+[![No backend](https://img.shields.io/badge/no%20backend-no%20hosted%20service-555.svg)](#project-stance)
 
 English | [中文](#中文)
+
+## TL;DR
+
+```powershell
+git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
+winget install --id Gyan.FFmpeg --exact
+pip install -r .\video-transcribe-skill\requirements.txt
+```
+
+Then ask Codex:
+
+```text
+Use $video-transcribe to transcribe and summarize this video link:
+https://www.bilibili.com/video/BV1hi7w6ME4Q/
+```
 
 ## Why
 
@@ -15,6 +35,15 @@ Many useful videos have no subtitles, especially short Bilibili demos and tutori
 5. let the model summarize or extract answers from the transcript.
 
 No cloud transcription key is required.
+
+## Project stance
+
+This is intentionally small:
+
+- offline-first local transcription, not a hosted transcription service;
+- no custom backend, account system, queue, dashboard, or `.io` product layer;
+- README-first documentation, with GitHub Pages only as a lightweight visual mirror;
+- deterministic code handles routing and audio processing; the model only reads the transcript.
 
 ## Features
 
@@ -109,7 +138,11 @@ MIT
 
 ## 中文
 
-> 一个本地 Codex skill，用来把视频链接变成带时间戳的转写文本和摘要。
+> 一个离线优先、轻量的 Codex skill，用来把视频链接变成带时间戳的转写文本和摘要。
+
+## 一句话
+
+这不是托管转写服务，也不需要自建后端。它只是一个可以放进 Codex skills 目录的本地小工具：抓音频、转码、本地 Whisper 转写，然后让 Codex 基于转写文本总结。
 
 ## 为什么做这个
 
