@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Transcribe Skill</title>
+    <meta name="description" content="A local Codex skill that turns video links into timestamped transcripts and summaries." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Video Transcribe Skill</div>
+      <nav aria-label="Page navigation">
+        <a href="#route">Route</a>
+        <a href="#install">Install</a>
+        <a href="#zh">中文</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Local ASR for Codex</p>
+          <h1>Turn video links into transcripts Codex can actually read.</h1>
+          <p class="lede">
+            A small, deterministic skill for Bilibili, YouTube, generic URLs, and local media.
+            It extracts audio, normalizes it with FFmpeg, runs local faster-whisper, and gives Codex clean text to summarize.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/UKplus8HRS/video-transcribe-skill">GitHub</a>
+            <a class="button" href="./technical-route.md">Technical route</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="Example output">
+          <div class="terminal-bar"><span></span><span></span><span></span></div>
+          <pre><code>$ video-transcribe BV1hi7w6ME4Q
+platform=bilibili
+title=Harness engineering 实操干货教程！
+segments=124 language=zh
+
+[041.56-042.16] 第一步
+[042.16-043.64] 给 AI 建一张地图</code></pre>
+        </div>
+      </section>
+
+      <section id="route" class="section">
+        <div class="section-head">
+          <p class="eyebrow">Technical route</p>
+          <h2>Deterministic first, model second.</h2>
+        </div>
+        <div class="pipeline">
+          <div>Video URL</div>
+          <div>Platform resolver</div>
+          <div>Audio stream</div>
+          <div>FFmpeg WAV</div>
+          <div>faster-whisper</div>
+          <div>Transcript</div>
+        </div>
+        <div class="grid">
+          <article>
+            <h3>Bilibili native path</h3>
+            <p>BV ids are resolved through Bilibili public web APIs. The script downloads DASH audio directly and avoids fragile Bilibili yt-dlp behavior.</p>
+          </article>
+          <article>
+            <h3>Generic fallback</h3>
+            <p>YouTube and other supported platforms are delegated to yt-dlp, keeping extraction broad without reimplementing every platform.</p>
+          </article>
+          <article>
+            <h3>Local transcription</h3>
+            <p>faster-whisper runs on CPU with int8 compute by default, so the workflow does not require a cloud API key.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="install" class="section split">
+        <div>
+          <p class="eyebrow">Install</p>
+          <h2>Drop the skill into Codex.</h2>
+          <p>Clone the repo, install FFmpeg, create a small local Whisper environment, then invoke <code>$video-transcribe</code> whenever a video link needs to become text.</p>
+        </div>
+        <pre class="code"><code>git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
+winget install --id Gyan.FFmpeg --exact
+pip install -r requirements.txt</code></pre>
+      </section>
+
+      <section id="zh" class="section zh">
+        <p class="eyebrow">中文介绍</p>
+        <h2>把视频链接变成 Codex 能读的文字。</h2>
+        <p>
+          这个 skill 先用确定性代码完成平台解析、音频下载、FFmpeg 转码和本地 Whisper 转写，
+          然后再让模型基于转写文本做摘要、提取和问答。B 站走公开 API 获取音频流，YouTube
+          和通用链接走 yt-dlp，本地文件则直接转码。
+        </p>
+        <div class="grid">
+          <article>
+            <h3>不依赖云端 key</h3>
+            <p>默认使用本地 faster-whisper，适合临时视频摘要和私有素材处理。</p>
+          </article>
+          <article>
+            <h3>适合无字幕视频</h3>
+            <p>当 B 站页面显示“暂无字幕”时，仍然可以从音频生成可读转写。</p>
+          </article>
+          <article>
+            <h3>输出可追溯</h3>
+            <p>每行转写都有时间戳，并保存 metadata，方便回看和核对。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>MIT Licensed</span>
+      <span>Built for Codex skills</span>
+    </footer>
+  </body>
+</html>

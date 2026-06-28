@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Transcribe"
+  short_description: "Transcribe video links with local Whisper."
+  default_prompt: "Use $video-transcribe to transcribe and summarize this video link."
