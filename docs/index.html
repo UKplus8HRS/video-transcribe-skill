@@ -98,15 +98,22 @@
       <section id="install" class="section install-section">
         <div>
           <p class="eyebrow">Install</p>
-          <h2>Drop the skill into Codex.</h2>
+          <h2>Drop the skill into Codex on Windows, macOS, or Linux.</h2>
           <p>
             Clone the repository, install FFmpeg, create the local Whisper environment, and invoke
             <code>$video-transcribe</code> whenever a video link needs to become text.
           </p>
         </div>
-        <pre class="code"><code>git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
+        <div class="install-grid">
+          <pre class="code"><code># Windows
+git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
 winget install --id Gyan.FFmpeg --exact
-pip install -r requirements.txt</code></pre>
+python -m venv %USERPROFILE%\.agent-reach\local-whisper-venv</code></pre>
+          <pre class="code"><code># macOS / Linux
+git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
+brew install ffmpeg
+python3 -m venv ~/.agent-reach/local-whisper-venv</code></pre>
+        </div>
       </section>
 
       <section id="zh" class="section zh-section">

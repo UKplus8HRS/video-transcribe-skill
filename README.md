@@ -17,6 +17,14 @@ winget install --id Gyan.FFmpeg --exact
 pip install -r .\video-transcribe-skill\requirements.txt
 ```
 
+macOS/Linux:
+
+```bash
+git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
+brew install ffmpeg   # macOS; use apt/dnf/pacman on Linux
+pip install -r ./video-transcribe-skill/requirements.txt
+```
+
 Then ask Codex:
 
 ```text
@@ -75,26 +83,51 @@ video-transcribe-skill/
 
 ## Install
 
-Clone the repository into your Codex skills folder:
+Clone the repository:
 
 ```powershell
-cd $env:USERPROFILE\.codex\skills
 git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
 ```
 
-If your Codex skill loader expects one folder per skill directly under `.codex/skills`, copy or symlink `video-transcribe/`:
+Install the skill folder.
+
+Windows PowerShell:
 
 ```powershell
-Copy-Item -Recurse .\video-transcribe-skill\video-transcribe .\video-transcribe
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
+Copy-Item -Recurse .\video-transcribe-skill\video-transcribe "$env:USERPROFILE\.codex\skills\video-transcribe"
 ```
 
-Install FFmpeg:
+macOS/Linux:
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R ./video-transcribe-skill/video-transcribe ~/.codex/skills/video-transcribe
+```
+
+Install FFmpeg.
+
+Windows:
 
 ```powershell
 winget install --id Gyan.FFmpeg --exact --accept-package-agreements --accept-source-agreements --silent
 ```
 
-Create the local Whisper environment:
+macOS:
+
+```bash
+brew install ffmpeg
+```
+
+Linux:
+
+```bash
+sudo apt-get update && sudo apt-get install -y ffmpeg
+```
+
+Create the local Whisper environment.
+
+Windows:
 
 ```powershell
 $venv = "$env:USERPROFILE\.agent-reach\local-whisper-venv"
@@ -103,13 +136,32 @@ python -m venv $venv
 & "$venv\Scripts\python.exe" -m pip install -r .\video-transcribe-skill\requirements.txt
 ```
 
+macOS/Linux:
+
+```bash
+python3 -m venv ~/.agent-reach/local-whisper-venv
+~/.agent-reach/local-whisper-venv/bin/python -m pip install --upgrade pip
+~/.agent-reach/local-whisper-venv/bin/python -m pip install -r ./video-transcribe-skill/requirements.txt
+```
+
 ## Usage
 
-Run directly:
+Run directly.
+
+Windows:
 
 ```powershell
 $py = "$env:USERPROFILE\.agent-reach\local-whisper-venv\Scripts\python.exe"
 & $py ".\video-transcribe-skill\video-transcribe\scripts\transcribe_video.py" "https://www.bilibili.com/video/BV1hi7w6ME4Q/" --language zh
+```
+
+macOS/Linux:
+
+```bash
+~/.agent-reach/local-whisper-venv/bin/python \
+  ./video-transcribe-skill/video-transcribe/scripts/transcribe_video.py \
+  "https://www.bilibili.com/video/BV1hi7w6ME4Q/" \
+  --language zh
 ```
 
 Or invoke it in Codex:
@@ -169,16 +221,38 @@ cd $env:USERPROFILE\.codex\skills
 git clone https://github.com/UKplus8HRS/video-transcribe-skill.git
 ```
 
-如果你的 Codex 需要 skill 文件夹直接位于 `.codex/skills` 下，复制 `video-transcribe/`：
+如果你的 Codex 需要 skill 文件夹直接位于 `.codex/skills` 下，复制 `video-transcribe/`。
+
+Windows PowerShell：
 
 ```powershell
-Copy-Item -Recurse .\video-transcribe-skill\video-transcribe .\video-transcribe
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
+Copy-Item -Recurse .\video-transcribe-skill\video-transcribe "$env:USERPROFILE\.codex\skills\video-transcribe"
+```
+
+macOS/Linux：
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R ./video-transcribe-skill/video-transcribe ~/.codex/skills/video-transcribe
 ```
 
 安装 FFmpeg：
 
 ```powershell
 winget install --id Gyan.FFmpeg --exact --accept-package-agreements --accept-source-agreements --silent
+```
+
+macOS：
+
+```bash
+brew install ffmpeg
+```
+
+Linux：
+
+```bash
+sudo apt-get update && sudo apt-get install -y ffmpeg
 ```
 
 创建本地 Whisper 环境：
@@ -190,13 +264,32 @@ python -m venv $venv
 & "$venv\Scripts\python.exe" -m pip install -r .\video-transcribe-skill\requirements.txt
 ```
 
+macOS/Linux：
+
+```bash
+python3 -m venv ~/.agent-reach/local-whisper-venv
+~/.agent-reach/local-whisper-venv/bin/python -m pip install --upgrade pip
+~/.agent-reach/local-whisper-venv/bin/python -m pip install -r ./video-transcribe-skill/requirements.txt
+```
+
 ## 使用
 
-直接运行：
+直接运行。
+
+Windows：
 
 ```powershell
 $py = "$env:USERPROFILE\.agent-reach\local-whisper-venv\Scripts\python.exe"
 & $py ".\video-transcribe-skill\video-transcribe\scripts\transcribe_video.py" "https://www.bilibili.com/video/BV1hi7w6ME4Q/" --language zh
+```
+
+macOS/Linux：
+
+```bash
+~/.agent-reach/local-whisper-venv/bin/python \
+  ./video-transcribe-skill/video-transcribe/scripts/transcribe_video.py \
+  "https://www.bilibili.com/video/BV1hi7w6ME4Q/" \
+  --language zh
 ```
 
 在 Codex 里调用：
